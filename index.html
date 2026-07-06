@@ -1,0 +1,378 @@
+<!-- ============================================================
+     CASE STUDIES SECTION — "Growth Ledger" concept
+     Color scheme matched to makads.online (black / white / #FF0476)
+     Drop this whole block into an HTML widget (Elementor) or a
+     custom Shopify section. Self-contained: CSS + JS included.
+     Edit the CASE DATA array near the bottom to swap in real numbers.
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<section class="gl-section" id="gl-case-studies">
+  <div class="gl-wrap">
+    <div class="gl-head">
+      <span class="gl-eyebrow">Case Studies</span>
+      <h2 class="gl-title">Every campaign leaves a paper trail.<br>Here's ours.</h2>
+      <p class="gl-sub">Real ad-account exports, redrawn. Spend in, revenue out, multiplier at the end.</p>
+    </div>
+
+    <div class="gl-grid" id="gl-grid"></div>
+  </div>
+</section>
+
+<style>
+  #gl-case-studies, #gl-case-studies * { box-sizing: border-box; }
+
+  #gl-case-studies {
+    --ink: #050505;
+    --panel: #101010;
+    --panel-edge: rgba(255,4,118,0.28);
+    --pink: #FF0476;
+    --pink-soft: #FF62A8;
+    --white: #FFFFFF;
+    --muted: #9A9AA3;
+
+    background: var(--ink);
+    padding: 96px 24px;
+    font-family: 'Inter', sans-serif;
+    color: var(--white);
+  }
+
+  .gl-wrap { max-width: 1180px; margin: 0 auto; }
+
+  .gl-head { max-width: 640px; margin-bottom: 64px; }
+
+  .gl-eyebrow {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--pink);
+    border: 1px solid var(--panel-edge);
+    padding: 5px 12px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  .gl-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.15;
+    margin: 0 0 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .gl-sub {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .gl-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  @media (max-width: 760px) {
+    .gl-grid { grid-template-columns: 1fr; }
+    #gl-case-studies { padding: 64px 18px; }
+  }
+
+  .gl-card {
+    background: var(--panel);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 28px 28px 26px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.6s ease;
+  }
+
+  .gl-card.gl-visible {
+    opacity: 1;
+    transform: translateY(0);
+    border-color: var(--panel-edge);
+  }
+
+  .gl-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+  }
+
+  .gl-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+
+  .gl-channel {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* the numbers row */
+  .gl-nums {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+
+  .gl-num-block { display: flex; flex-direction: column; }
+
+  .gl-num-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .gl-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(20px, 2.6vw, 26px);
+    font-weight: 600;
+    color: var(--white);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .gl-arrow {
+    color: var(--pink);
+    font-size: 20px;
+    align-self: center;
+    margin-top: 14px;
+  }
+
+  /* --- signature element: the flow bar --- */
+  .gl-flow-track {
+    position: relative;
+    height: 10px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.08);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .gl-flow-fill {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 0%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, #7A0138 0%, var(--pink) 55%, var(--pink-soft) 100%);
+    box-shadow: 0 0 18px rgba(255,4,118,0.65), 0 0 38px rgba(255,4,118,0.3), inset 0 1px 0 rgba(255,255,255,0.25);
+    transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow: hidden;
+  }
+
+  .gl-flow-fill::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 35%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.65), transparent);
+    transform: translateX(-140%);
+    animation: gl-shimmer 2.4s ease-in-out infinite;
+    animation-delay: 1.6s;
+  }
+
+  @keyframes gl-shimmer {
+    0% { transform: translateX(-140%); }
+    100% { transform: translateX(380%); }
+  }
+
+  .gl-flow-marker {
+    position: absolute;
+    top: -4px;
+    width: 2px;
+    height: 18px;
+    background: rgba(255,255,255,0.4);
+  }
+
+  .gl-bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 18px;
+  }
+
+  .gl-meta { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .gl-meta strong { color: var(--white); font-weight: 500; }
+
+  .gl-roas {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 0.5s ease 0.9s, transform 0.5s ease 0.9s;
+  }
+
+  .gl-card.gl-visible .gl-roas { opacity: 1; transform: scale(1); }
+
+  .gl-roas-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 34px;
+    color: var(--pink);
+    line-height: 1;
+    text-shadow: 0 0 26px rgba(255,4,118,0.45);
+  }
+
+  .gl-roas-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gl-card, .gl-flow-fill, .gl-roas { transition: none !important; }
+    .gl-flow-fill::after { animation: none !important; display: none; }
+  }
+</style>
+
+<script>
+(function () {
+  // ---------------- CASE DATA — edit this to swap in real results ----------------
+  var CASES = [
+    {
+      industry: "Ecommerce · Fragrance",
+      currency: "$",
+      spend: 1033354,
+      revenue: 7270939,
+      roas: 7.04,
+      channel: "Meta Ads",
+      duration: "12-month spend"
+    },
+    {
+      industry: "Real Estate",
+      currency: "€",
+      spend: 355361,
+      revenue: 1143263,
+      roas: 3.22,
+      channel: "Meta Ads",
+      duration: "6-month spend"
+    },
+    {
+      industry: "Education / Certification",
+      currency: "$",
+      spend: 250000,
+      revenue: 1300000,
+      roas: 5.2,
+      channel: "Meta + Google",
+      duration: "8-month spend"
+    },
+    {
+      industry: "Ecommerce · DTC",
+      currency: "$",
+      spend: 740000,
+      revenue: 5230000,
+      roas: 7.07,
+      channel: "Meta Ads",
+      duration: "10-month spend"
+    }
+  ];
+  // ---------------------------------------------------------------------------
+
+  function fmt(n, currency) {
+    if (n >= 1000000) return currency + (n / 1000000).toFixed(2) + "M";
+    if (n >= 1000) return currency + (n / 1000).toFixed(0) + "K";
+    return currency + n;
+  }
+
+  function countUp(el, target, isDecimal, duration) {
+    var start = 0;
+    var startTime = null;
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var current = start + (target - start) * eased;
+      el.textContent = isDecimal ? current.toFixed(2) + "x" : Math.round(current).toLocaleString();
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = isDecimal ? target.toFixed(2) + "x" : Math.round(target).toLocaleString();
+    }
+    requestAnimationFrame(step);
+  }
+
+  var grid = document.getElementById("gl-grid");
+
+  CASES.forEach(function (c, i) {
+    var maxVal = c.revenue;
+    var spendPct = (c.spend / maxVal) * 100;
+
+    var card = document.createElement("div");
+    card.className = "gl-card";
+    card.innerHTML =
+      '<div class="gl-card-top">' +
+        '<span class="gl-tag">' + c.industry + '</span>' +
+        '<span class="gl-channel">' + c.channel + '</span>' +
+      '</div>' +
+      '<div class="gl-nums">' +
+        '<div class="gl-num-block">' +
+          '<span class="gl-num-label">Spend</span>' +
+          '<span class="gl-num gl-spend">' + c.currency + '0</span>' +
+        '</div>' +
+        '<span class="gl-arrow">&#8594;</span>' +
+        '<div class="gl-num-block">' +
+          '<span class="gl-num-label">Revenue</span>' +
+          '<span class="gl-num gl-revenue">' + c.currency + '0</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="gl-flow-track">' +
+        '<div class="gl-flow-marker" style="left:' + spendPct + '%"></div>' +
+        '<div class="gl-flow-fill"></div>' +
+      '</div>' +
+      '<div class="gl-bottom-row">' +
+        '<div class="gl-meta"><strong>' + fmt(c.spend, c.currency) + '</strong> spent &middot; ' + c.duration + '</div>' +
+        '<div class="gl-roas">' +
+          '<span class="gl-roas-num gl-roas-count">0.00x</span>' +
+          '<span class="gl-roas-label">ROAS</span>' +
+        '</div>' +
+      '</div>';
+
+    grid.appendChild(card);
+
+    var spendEl = card.querySelector(".gl-spend");
+    var revEl = card.querySelector(".gl-revenue");
+    var roasEl = card.querySelector(".gl-roas-count");
+    var flowFill = card.querySelector(".gl-flow-fill");
+
+    var animated = false;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !animated) {
+          animated = true;
+          card.classList.add("gl-visible");
+          countUp(spendEl, c.spend, false, 1100);
+          countUp(revEl, c.revenue, false, 1400);
+          countUp(roasEl, c.roas, true, 1600);
+          setTimeout(function () { flowFill.style.width = "100%"; }, 150);
+          observer.unobserve(card);
+        }
+      });
+    }, { threshold: 0.35 });
+
+    observer.observe(card);
+  });
+})();
+</script>
